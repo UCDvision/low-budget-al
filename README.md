@@ -15,11 +15,11 @@ This repository is the implementation of [A Simple Baseline for Low-Budget Activ
 
 We implemented the following query strategies in ```strategies.py``` on **CIFAR-10**, **CIFAR-100**, **ImageNet**, and **ImageNet-LT** datasets:
 
-**a) K-means:** At each round, it clusters the whole dataset to budget size clusters and sends nearest neighbors of centers directly to the oracle to be annotated.
+**a) Single-batch k-means:** At each round, it clusters the whole dataset to budget size clusters and sends nearest neighbors of centers directly to the oracle to be annotated.
 
-**b) Accumulative k-means:** Uses the difference of two consecutive budget sizes as the number of clusters and picks those nearest examples to centers that have not been labeled previously by the oracle.
+**b) Multi-batch k-means:** Uses the difference of two consecutive budget sizes as the number of clusters and picks those nearest examples to centers that have not been labeled previously by the oracle.
 
-**c) Coreset [2]**
+**c) Core-set [2]**
 
 **d) Max-Entropy [3]:** Treats the entropy of example probability distribution output as an uncertainty score and samples uncertain points for annotation.
 
