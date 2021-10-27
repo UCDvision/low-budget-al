@@ -1,15 +1,13 @@
 # A Simple Baseline for Low-Budget Active Learning
 
-This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](). In this paper, we are interested in low-budget active learning where only a small subset of unlabeled data, e.g. 0.2% of ImageNet, can be annotated. We show that although the state-of-the-art active learning methods work well given a large budget of data labeling, a simple k-means clustering algorithm can outperform them on low budgets. Our code is modified from [CompRess](https://github.com/UMBCvision/CompRess) [1]. 
+This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](https://arxiv.org/abs/2110.12033). In this paper, we are interested in low-budget active learning where only a small subset of unlabeled data, e.g. 0.2% of ImageNet, can be annotated. We show that although the state-of-the-art active learning methods work well given a large budget of data labeling, a simple k-means clustering algorithm can outperform them on low budgets. Our code is modified from [CompRess](https://github.com/UMBCvision/CompRess) [1]. 
 
 ```
-@misc{pourahmadi2021simple,
-      title={A Simple Baseline for Low-Budget Active Learning}, 
-      author={Kossar Pourahmadi and Parsa Nooralinejad and Hamed Pirsiavash},
-      year={2021},
-      eprint={2110.12033},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{pourahmadi2021simple,
+  title={A Simple Baseline for Low-Budget Active Learning},
+  author={Pourahmadi, Kossar and Nooralinejad, Parsa and Pirsiavash, Hamed},
+  journal={arXiv preprint arXiv:2110.12033},
+  year={2021}
 }
 ```
 
