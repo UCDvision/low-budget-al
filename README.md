@@ -51,67 +51,107 @@ You have the following options to run commands:
 If the strategy needs an initial pool (accu_kmeans or coreset) then pass the file path with ```--resume-indices```.
 
 ```
-python sampler.py --arch resnet18 \
---weights [path to weights] --backbone compress \
---batch-size 4 --workers 4 \
---splits 100  \
---load_cache --name kmeans \
---dataset cifar10 [path to dataset file]
+python sampler.py \
+--arch resnet18 \
+--weights [path to weights] \
+--backbone compress \
+--batch-size 4 \
+--workers 4 \
+--splits 100 \
+--load_cache \
+--name kmeans \
+--dataset cifar10 \
+[path to dataset file]
 ```
 
 ### Linear classification
 
 ```
-python eval_lincls.py --arch resnet18 \
---weights [path to weights] --backbone compress \
---batch-size 128 --workers 4 --lr 0.01 --lr_schedule 50,75 --epochs 100 \
+python eval_lincls.py \
+--arch resnet18 \
+--weights [path to weights] \
+--backbone compress \
+--batch-size 128 \
+--workers 4 \
+--lr 0.01 \
+--lr_schedule 50,75 \
+--epochs 100 \
 --splits 1000 \  
---load_cache --name random \
---dataset imagenet [path to dataset file]
+--load_cache \
+--name random \
+--dataset imagenet \
+[path to dataset file]
 ```
 
 ### Nearest neighbor classification
 
 ```
-python eval_knn.py --arch resnet18 \
---weights [path to weights] --backbone compress \
---batch-size 128 --workers 8 \
+python eval_knn.py \
+--arch resnet18 \
+--weights [path to weights] \
+--backbone compress \
+--batch-size 128 \
+--workers 8 \
 --splits 1000 \
---load_cache --name random \
---dataset cifar10 [path to dataset file]
+--load_cache \
+--name random \
+--dataset cifar10 \
+[path to dataset file]
 ```
 
 ### Entropy sampling
 To sample data using Max-Entropy, use ```active_sampler.py``` and ```entropy``` for ```--name```. Give the initial pool indices file path with --resume-indices.
 
 ```
-python active_sampler.py --arch resnet18 \
---weights [path to weights] --backbone compress \
---batch-size 128 --workers 4 --lr 0.001 --lr_schedule 50,75 --epochs 100 \
+python active_sampler.py \
+--arch resnet18 \
+--weights [path to weights] \
+--backbone compress \
+--batch-size 128 \
+--workers 4 \
+--lr 0.001 \
+--lr_schedule 50,75 \
+--epochs 100 \
 --splits 2000 \
---load_cache --name entropy \
+--load_cache \
+--name entropy \
 --resume-indices [path to random initial pool file] \
---dataset imagenet [path to dataset file]
+--dataset imagenet \
+[path to dataset file]
 ```
 
 ### Fine-tuning
 This file is implemented only for CompRess ResNet-18 backbone on **ImageNet**. ```--lr``` is the learning rate of backbone and ```--lr-lin``` is for the linear classifier.
 ```
-python finetune.py --arch resnet18 \
+python finetune.py \
+--arch resnet18 \
 --weights [path to weights] \
---batch-size 128 --workers 16 --epochs 100 --lr_schedule 50,75 \
---lr 0.0001 --lr-lin 0.01 \
---splits 1000 --name kmeans \
---dataset imagenet [path to dataset file]
+--batch-size 128 \
+--workers 16 \
+--epochs 100 \
+--lr_schedule 50,75 \
+--lr 0.0001 \
+--lr-lin 0.01 \
+--splits 1000 \
+--name kmeans \
+--dataset imagenet \
+[path to dataset file]
 ```
 
 ### Training from scratch
 Starting from a random initialized network, you can train the model on **CIFAR-100** or **ImageNet**.
 ```
-python trainer_DP.py --arch resnet18 \
---batch-size 128 --workers 4 --epochs 100 --lr 0.1 --lr_schedule 30,60,90 \
---splits 1000 --name kmeans \
---dataset imagenet [path to dataset file]
+python trainer_DP.py \
+--arch resnet18 \
+--batch-size 128 \
+--workers 4 \
+--epochs 100 \
+--lr 0.1 \
+--lr_schedule 30,60,90 \
+--splits 1000 \
+--name kmeans \
+--dataset imagenet \
+[path to dataset file]
 ```
 
 ## References
