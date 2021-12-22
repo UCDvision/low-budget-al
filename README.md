@@ -6,7 +6,7 @@
 This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](https://arxiv.org/abs/2110.12033).
 
 <p align="center">
-  <img src="https://github.com/UCDvision/low-budget-al/raw/master/teaser.PNG" width="85%">
+  <img src="https://github.com/UCDvision/low-budget-al/docs/assets/images/teaser.PNG" width="85%">
 </p>
 
 
@@ -27,7 +27,6 @@ In this paper, we are interested in low-budget active learning where only a smal
 2. [Requirements](#Requirements)
 3. [Evaluation](#Evaluation)
 	1. [Sample selection](#sample_selection)
-
 4. [Evaluation](#evaluation)
     1. [Synthesis quality](#synthesis_quality)
     2. [Diversity](#diversity)
@@ -107,13 +106,13 @@ Linear classification results on ImageNet:
 
 | Method | 0.08%(1K) | 0.2%(3K) |  0.5%(7K) | 1%(13K) | 2%(26K) | 5%(64K) | 10%(128K) | 15%(192K) |
 |--------|-----------|----------|-----------|---------|---------|---------|-----------|-----------|
-|Uniform | 19.2 ± .3 |31.9 ± .3 |41.0 ± .3 |46.0 ± .1 |49.9 ± .0 |**54.2** ± .1 | **56.7** ± .1 | 57.9 ± .1|
-|Random  |15.8 ± .0  |28.0 ± .4 |39.2 ± .3 |45.1 ± .1 |49.7 ± .1 |54.0 ± .1 |56.6 ± .1  |57.9 ± .1 |
-|Max-Entropy |15.8 ± .0 |19.4 ± .0 |25.6 ± .0 |33.7 ± .0 |41.3 ± .0 |48.9 ± .1 |51.9 ± .1 |54.3 ± .1|
-|Core-set |15.8 ± .0 |25.6 ± .1 |33.3 ± .0 |39.6 ± .0 |45.7 ± .1 |51.3 ± .0 |54.9 ± .1 |56.6 ± .1|
-|VAAL |15.8 ± .0 |27.7 ± .1 |34.9 ± .2 |42.8 ± .1 |49.2 ± .2 |53.6 ± .1 |56.0 ± .1 |57.4 ± .0|
-|Multi k-means | **24.6** ± .0 |34.1 ± .1 |41.1 ± .0 |45.3 ± .0 |49.5 ± .0 |53.9 ± .0 |56.3 ± .0 |57.5 ± .1|
-|K-means | **24.6** ± .0| **35.7** ± .0| **42.6** ± .1| **46.9** ± .1| **50.7** ± .0| 54.0 ± .1| 56.6 ± .0| **58.0** ± .1|
+|Uniform | 19.2  |31.9 |41.0 |46.0  |49.9  |**54.2** | **56.7** | 57.9 |
+|Random  |15.8   |28.0  |39.2  |45.1  |49.7 |54.0  |56.6   |57.9 |
+|Max-Entropy |15.8 |19.4  |25.6  |33.7 |41.3  |48.9  |51.9 |54.3 |
+|Core-set |15.8  |25.6  |33.3  |39.6  |45.7 |51.3  |54.9  |56.6 |
+|VAAL |15.8  |27.7  |34.9  |42.8  |49.2 |53.6 |56.0 |57.4|
+|Multi k-means | **24.6**  |34.1  |41.1 |45.3  |49.5  |53.9 |56.3 |57.5 |
+|K-means | **24.6** | **35.7** | **42.6** | **46.9**| **50.7** | 54.0 | 56.6 | **58.0** |
 
 ### Nearest neighbor classification
 
