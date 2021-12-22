@@ -6,7 +6,7 @@
 This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](https://arxiv.org/abs/2110.12033).
 
 <p align="center">
-  <img src="https://github.com/UCDvision/low-budget-al/docs/assets/images/teaser.PNG" width="85%">
+  <img src="https://github.com/UCDvision/low-budget-al/raw/master/docs/assets/images/teaser.PNG" width="85%">
 </p>
 
 
