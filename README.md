@@ -27,10 +27,13 @@ In this paper, we are interested in low-budget active learning where only a smal
 2. [Requirements](#Requirements)
 3. [Evaluation](#Evaluation)
 	1. [Sample selection](#sample_selection)
-4. [Evaluation](#evaluation)
-    1. [Synthesis quality](#synthesis_quality)
-    2. [Diversity](#diversity)
-
+	2. [Linear classification](#linear)
+	3. [Nearest neighbor classification](#nn)
+	4. [Max-Entropy sampling](#entropy)
+	5. [Fine-tuning](#ft)
+	6. [Training from scratch](#from_scratch)
+4. [References](#ref)
+    
 ## Benchmarks <a name="Benchmarks"></a>
 
 We implemented the following query strategies in ```strategies.py``` on **CIFAR-10**, **CIFAR-100**, **ImageNet**, and **ImageNet-LT** datasets:
@@ -83,8 +86,18 @@ python sampler.py \
 --dataset cifar10 \
 [path to dataset file]
 ```
+Category coverage results of selected samples on ImageNet:
+| Method | 0.08% | 0.2% |  0.5% | ≥ 1% |
+|--------|-------|------|-------|------|
+|Uniform |100 | 100 | 100 | 100|
+|Random | 62.9 | 94.6 | 100 | 100|
+|Max-Entropy | 62.9 | 84.3 | 94.8 | 100|
+|Core-set | 62.9 | 87.9 | 97.0 | 100|
+|VAAL | 62.9 | 94.6 | 98.1 | 100|
+|Multi k-means | 72.2 | 97.0 | 99.8 | 100|
+|K-means | 72.2 | 97.8 | 99.9 | 100|
 
-### Linear classification
+### Linear classification <a name="linear"></a>
 
 ```bash
 python eval_lincls.py \
@@ -102,7 +115,7 @@ python eval_lincls.py \
 --dataset imagenet \
 [path to dataset file]
 ```
-Linear classification results on ImageNet:
+Top-1 linear classification results on ImageNet:
 
 | Method | 0.08%(1K) | 0.2%(3K) |  0.5%(7K) | 1%(13K) | 2%(26K) | 5%(64K) | 10%(128K) | 15%(192K) |
 |--------|-----------|----------|-----------|---------|---------|---------|-----------|-----------|
@@ -114,7 +127,7 @@ Linear classification results on ImageNet:
 |Multi k-means | **24.6**  |34.1  |41.1 |45.3  |49.5  |53.9 |56.3 |57.5 |
 |K-means | **24.6** | **35.7** | **42.6** | **46.9**| **50.7** | 54.0 | 56.6 | **58.0** |
 
-### Nearest neighbor classification
+### Nearest neighbor classification <a name="nn"></a>
 
 ```bash
 python eval_knn.py \
@@ -129,8 +142,20 @@ python eval_knn.py \
 --dataset cifar10 \
 [path to dataset file]
 ```
+1-NN results on ImageNet:
 
-### Entropy sampling
+| Method | 0.08%(1K) | 0.2%(3K) |  0.5%(7K) | 1%(13K) | 2%(26K) | 5%(64K) | 10%(128K) | 15%(192K) |
+|--------|-----------|----------|-----------|---------|---------|---------|-----------|-----------|
+|Uniform | 29.5 | 35.7 | 38.9 | 41.1 | 43.2 | 45.6 | 47.6 | 48.6|
+|Random | 22.8 | 33.2 | 38.4 | 40.8 | 42.2 | 45.4 | 47.3 | 48.3|
+|Max-Entropy | 22.8 | 24.5 | 27.2 | 30.3 | 33.3 | 36.2 | 37.6 | 38.6 |
+|Core-set | 22.8 | 30.7 | 34.8 | 37.5 | 39.7 | 42.0 | 43.7 | 44.6|
+|VAAL | 22.8 | 32.8 | 36.2 | 39.7 | 42.6 | 45.3 | 46.7 | 47.9|
+|Multi k-means | **31.6** | 38.2 | 41.4 | 43.3 | 45.2 | 47.2 | **48.6** |  **49.4**|
+|K-means | **31.6** | **39.9** | **42.7** | **44.0** | **45.5** | **46.8** | 48.1 | 48.8|
+
+
+### Max-Entropy sampling <a name="entropy"></a>
 To sample data using Max-Entropy, use ```active_sampler.py``` and ```entropy``` for ```--name```. Give the initial pool indices file path with --resume-indices.
 
 ```bash
@@ -151,7 +176,7 @@ python active_sampler.py \
 [path to dataset file]
 ```
 
-### Fine-tuning
+### Fine-tuning <a name="ft"></a>
 This file is implemented only for CompRess ResNet-18 backbone on **ImageNet**. ```--lr``` is the learning rate of backbone and ```--lr-lin``` is for the linear classifier.
 ```bash
 python finetune.py \
@@ -169,7 +194,7 @@ python finetune.py \
 [path to dataset file]
 ```
 
-### Training from scratch
+### Training from scratch <a name="from_scratch"></a>
 Starting from a random initialized network, you can train the model on **CIFAR-100** or **ImageNet**.
 ```bash
 python trainer_DP.py \
@@ -185,7 +210,7 @@ python trainer_DP.py \
 [path to dataset file]
 ```
 
-## References
+## References <a name="ref"></a>
 
 [1] CompRess: Self-Supervised Learning by Compressing Representations, NeurIPS, 2020
 
