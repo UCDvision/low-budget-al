@@ -1,6 +1,16 @@
 # A Simple Baseline for Low-Budget Active Learning
+[Kossar Pourahmadi](https://arghavan-kpm.github.io/),
+[Parsa Nooralinejad](https://p-nooralinejad.github.io/),
+[Hamed Pirsiavash](https://www.csee.umbc.edu/~hpirsiav/)<br/>
 
-This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](https://arxiv.org/abs/2110.12033). In this paper, we are interested in low-budget active learning where only a small subset of unlabeled data, e.g. 0.2% of ImageNet, can be annotated. We show that although the state-of-the-art active learning methods work well given a large budget of data labeling, a simple k-means clustering algorithm can outperform them on low budgets. Our code is modified from [CompRess](https://github.com/UMBCvision/CompRess) [1]. 
+This repository is the implementation of [A Simple Baseline for Low-Budget Active Learning](https://arxiv.org/abs/2110.12033).
+
+<p align="center">
+  <img src="https://github.com/UCDvision/low-budget-al/raw/master/teaser.PNG" width="85%">
+</p>
+
+
+In this paper, we are interested in low-budget active learning where only a small subset of unlabeled data, e.g. 0.2% of ImageNet, can be annotated. Instead of proposing a new query strategy to iteratively sample batches of unlabeled data given an initial pool, we learn rich features by an off-the-shelf self-supervised learning method only once and then study the effectiveness of different sampling strategies given a low budget on a variety of datasets as well as ImageNet dataset. We show that although the state-of-the-art active learning methods work well given a large budget of data labeling, a simple k-means clustering algorithm can outperform them on low budgets. We believe this method can be used as a simple baseline for low-budget active learning on image classification. Our code is modified from [CompRess](https://github.com/UMBCvision/CompRess) [1]. 
 
 ```
 @article{pourahmadi2021simple,
@@ -11,7 +21,18 @@ This repository is the implementation of [A Simple Baseline for Low-Budget Activ
 }
 ```
 
-## Benchmarks
+# Table of Content
+
+1. [Benchmarks](#Benchmarks)
+2. [Requirements](#Requirements)
+3. [Evaluation](#Evaluation)
+	1. [Sample selection](#sample_selection)
+
+4. [Evaluation](#evaluation)
+    1. [Synthesis quality](#synthesis_quality)
+    2. [Diversity](#diversity)
+
+## Benchmarks <a name="Benchmarks"></a>
 
 We implemented the following query strategies in ```strategies.py``` on **CIFAR-10**, **CIFAR-100**, **ImageNet**, and **ImageNet-LT** datasets:
 
@@ -27,7 +48,7 @@ We implemented the following query strategies in ```strategies.py``` on **CIFAR-
 
 **f) Random:** Samples are selected randomly (uniformly) from the entire dataset.
 
-## Requirements
+## Requirements <a name="Requirements"></a>
 
 * Python 3.7
 * [PyTorch](https://pytorch.org/)
@@ -35,7 +56,7 @@ We implemented the following query strategies in ```strategies.py``` on **CIFAR-
 * [FAISS](https://github.com/facebookresearch/faiss/blob/master/INSTALL.md): To perform k-means and nearest neighbor classification, we use FAISS GPU library.
 * Download ImageNet_LT_train.txt from [here](https://drive.google.com/drive/u/1/folders/19cl6GK5B3p5CxzVBy5i4cWSmBy9-rT_-) and put it in folder ```data/```.
 
-## Usage
+## Evaluation <a name="Evaluation"></a>
 
 This implementation supports multi-gpu, DataParallel or single-gpu training. 
 
@@ -47,10 +68,10 @@ You have the following options to run commands:
 * ```--name``` Specify the query strategy name by using one of ```uniform random kmeans accu_kmeans coreset```.
 * ```--dataset``` Indicate the unlabeled dataset name by using one of ```cifar10 cifar100 imagenet imagenet_lt```.
 
-### Sample selection
+### Sample selection <a name="sample_selection"></a>
 If the strategy needs an initial pool (accu_kmeans or coreset) then pass the file path with ```--resume-indices```.
 
-```
+```bash
 python sampler.py \
 --arch resnet18 \
 --weights [path to weights] \
@@ -66,7 +87,7 @@ python sampler.py \
 
 ### Linear classification
 
-```
+```bash
 python eval_lincls.py \
 --arch resnet18 \
 --weights [path to weights] \
@@ -76,16 +97,27 @@ python eval_lincls.py \
 --lr 0.01 \
 --lr_schedule 50,75 \
 --epochs 100 \
---splits 1000 \  
+--splits 1000 \
 --load_cache \
 --name random \
 --dataset imagenet \
 [path to dataset file]
 ```
+Linear classification results on ImageNet:
+
+| Method | 0.08%(1K) | 0.2%(3K) |  0.5%(7K) | 1%(13K) | 2%(26K) | 5%(64K) | 10%(128K) | 15%(192K) |
+|--------|-----------|----------|-----------|---------|---------|---------|-----------|-----------|
+|Uniform | 19.2 ± .3 |31.9 ± .3 |41.0 ± .3 |46.0 ± .1 |49.9 ± .0 |**54.2** ± .1 | **56.7** ± .1 | 57.9 ± .1|
+|Random  |15.8 ± .0  |28.0 ± .4 |39.2 ± .3 |45.1 ± .1 |49.7 ± .1 |54.0 ± .1 |56.6 ± .1  |57.9 ± .1 |
+|Max-Entropy |15.8 ± .0 |19.4 ± .0 |25.6 ± .0 |33.7 ± .0 |41.3 ± .0 |48.9 ± .1 |51.9 ± .1 |54.3 ± .1|
+|Core-set |15.8 ± .0 |25.6 ± .1 |33.3 ± .0 |39.6 ± .0 |45.7 ± .1 |51.3 ± .0 |54.9 ± .1 |56.6 ± .1|
+|VAAL |15.8 ± .0 |27.7 ± .1 |34.9 ± .2 |42.8 ± .1 |49.2 ± .2 |53.6 ± .1 |56.0 ± .1 |57.4 ± .0|
+|Multi k-means | **24.6** ± .0 |34.1 ± .1 |41.1 ± .0 |45.3 ± .0 |49.5 ± .0 |53.9 ± .0 |56.3 ± .0 |57.5 ± .1|
+|K-means | **24.6** ± .0| **35.7** ± .0| **42.6** ± .1| **46.9** ± .1| **50.7** ± .0| 54.0 ± .1| 56.6 ± .0| **58.0** ± .1|
 
 ### Nearest neighbor classification
 
-```
+```bash
 python eval_knn.py \
 --arch resnet18 \
 --weights [path to weights] \
@@ -102,7 +134,7 @@ python eval_knn.py \
 ### Entropy sampling
 To sample data using Max-Entropy, use ```active_sampler.py``` and ```entropy``` for ```--name```. Give the initial pool indices file path with --resume-indices.
 
-```
+```bash
 python active_sampler.py \
 --arch resnet18 \
 --weights [path to weights] \
@@ -122,7 +154,7 @@ python active_sampler.py \
 
 ### Fine-tuning
 This file is implemented only for CompRess ResNet-18 backbone on **ImageNet**. ```--lr``` is the learning rate of backbone and ```--lr-lin``` is for the linear classifier.
-```
+```bash
 python finetune.py \
 --arch resnet18 \
 --weights [path to weights] \
@@ -140,7 +172,7 @@ python finetune.py \
 
 ### Training from scratch
 Starting from a random initialized network, you can train the model on **CIFAR-100** or **ImageNet**.
-```
+```bash
 python trainer_DP.py \
 --arch resnet18 \
 --batch-size 128 \
